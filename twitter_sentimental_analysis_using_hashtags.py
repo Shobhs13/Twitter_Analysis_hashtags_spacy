@@ -56,3 +56,51 @@ for tweet in tweets[0:50]:
   print()
   i=i+1
  
+#Creating a dataframe
+df=pd.DataFrame([tweet.full_text for tweet in tweets],columns=['tweets'])
+
+#Printing the dataframe
+df.head()
+
+#Cleaning the data
+def cleantext(text):
+ text=re.sub("@[A-Za-z0-9]+", '', text)
+ text=re.sub("#", '', text)
+ text=re.sub('RT[\s]+', '', text)
+ text=re.sub("https?:\/\/\S+",'',text)
+ return text
+
+#Redefined text dataframe
+df['tweets']=df['tweets'].apply(cleantext) 
+
+#printing dataframe(redefined)
+df.head()
+
+#Convering to a list
+texts=df['tweets'].to_list()
+print(df['tweets'].to_list())
+
+#Calling translation function 
+translator = Translator()
+
+type(texts[3])
+curr = ''.join([i if ord(i) < 128 and i!=';' else ' ' for i in texts[2]])
+curr = "".join(curr.split('\n'))
+
+text2 = '_shahkar: Treating Corona Patients + Fasting + Performing SalahMay Allah keep all doctors healthy alive    coronavirus https '
+
+print(curr)
+answer = translator.translate(curr)
+print(answer.text)
+
+answer= []
+for i in range(len(texts)) :
+    curr = ''.join([i if ord(i) < 128 and i!=';' else ' ' for i in texts[i]])
+    curr = "".join(curr.split('\n'))
+    answer.append(translator.translate(curr).text)
+print(answer)
+
+#Printing the traslated Dataframe
+print(translations)
+print(type(translations))
+
